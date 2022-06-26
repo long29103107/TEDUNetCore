@@ -1,11 +1,15 @@
 using System.Collections.Generic;
 using System.Reflection;
+using TEDUDI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 // Add services to the container.
 services.AddControllersWithViews();
-//services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
+
+services.AddSingleton<ISingletonService, SomeService>();
+services.AddScoped<IScopedService, SomeService>();
+services.AddTransient<ITransientService, SomeService>();
 
 var app = builder.Build();
 
@@ -19,7 +23,7 @@ if (!app.Environment.IsDevelopment())
 else
 {
     app.UseDeveloperExceptionPage();
-}    
+}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
